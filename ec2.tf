@@ -7,20 +7,23 @@ resource "aws_key_pair" "devkey" {
 # Locust Master EC2 Instance
 resource "aws_instance" "tsc_poc_locust_master" {
   ami             = "ami-000947bc9f68a49fe"
-  instance_type   = "t2.medium"
+  instance_type   = "t2.micro"
   subnet_id       = aws_subnet.tsc_poc_public_subnet1.id
   security_groups = [aws_security_group.tsc_poc_ec2_locust_sg.id]
   key_name        = aws_key_pair.devkey.key_name
+  
+  # Attach Iam roles
+  iam_instance_profile = aws_iam_instance_profile.ec2_locust_s3_profile.name
 
-  user_data = <<-EOF
-              #!/bin/bash
-              sudo yum update -y
-              sudo yum install -y python3 python3-pip
-              pip3 install locust
+  # user_data = <<-EOF
+  #             #!/bin/bash
+  #             sudo yum update -y
+  #             sudo yum install -y aws-cli python3 python3-pip git
+  #             pip3 install locust
 
-              # Start Locust Master
-              # locust -f /home/ec2-user/locustfile.py --master --host=http://your-app-url &
-              EOF
+  #             # Start Locust Master
+  #             # locust -f /home/ec2-user/locustfile.py --master --host=http://your-app-url &
+  #             EOF
 
   tags = {
     Name       = "locust-master"
@@ -32,20 +35,23 @@ resource "aws_instance" "tsc_poc_locust_master" {
 # Locust Worker EC2 Instance
 resource "aws_instance" "tsc_poc_locust_worker" {
   ami             = "ami-000947bc9f68a49fe"
-  instance_type   = "t2.medium"
+  instance_type   = "t2.micro"
   subnet_id       = aws_subnet.tsc_poc_public_subnet1.id
   security_groups = [aws_security_group.tsc_poc_ec2_locust_sg.id]
   key_name        = aws_key_pair.devkey.key_name
+  
+  # Attach Iam Role
+  iam_instance_profile = aws_iam_instance_profile.ec2_locust_s3_profile.name
 
-  user_data = <<-EOF
-              #!/bin/bash
-              sudo yum update -y
-              sudo yum install -y python3 python3-pip
-              pip3 install locust
+  # user_data = <<-EOF
+  #             #!/bin/bash
+  #             sudo yum update -y
+  #             sudo yum install -y aws-cli python3 python3-pip git
+  #             pip3 install locust
 
-              # Start Locust Worker (Replace MASTER_IP dynamically)
-              # locust -f /home/ec2-user/locustfile.py --worker --master-host=${aws_instance.tsc_poc_locust_master.private_ip} &
-              EOF
+  #             # Start Locust Worker (Replace MASTER_IP dynamically)
+  #             # locust -f /home/ec2-user/locustfile.py --worker --master-host=${aws_instance.tsc_poc_locust_master.private_ip} &
+  #             EOF
 
   tags = {
     Name       = "locust-worker"
