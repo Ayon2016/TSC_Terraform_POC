@@ -1,6 +1,7 @@
 variable "aws_region" {
   description = "AWS region"
   type        = string
+  default = "us-east-1"
 }
 
 variable "aws_access_key" {
@@ -15,8 +16,8 @@ variable "aws_secret_key" {
   sensitive   = true
 }
 
-variable "dev_key_pair" {
-  description = "AWS EC2 Key"
-  type        = string
-  sensitive   = true
-}
+# variable "dev_key_pair" {
+#   description = "AWS EC2 Key"
+#   type        = string
+#   sensitive   = true
+# }
