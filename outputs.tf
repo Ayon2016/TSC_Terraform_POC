@@ -6,6 +6,10 @@ output "locust_master_public_ip" {
   value = aws_instance.tsc_poc_locust_master.public_ip
 }
 
+output "locust_master_private_ip" {
+  value = aws_instance.tsc_poc_locust_master.private_ip
+}
+
 output "locust_worker_public_ip" {
   value = aws_instance.tsc_poc_locust_worker.public_ip
 }
