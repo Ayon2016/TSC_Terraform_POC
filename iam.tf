@@ -32,8 +32,8 @@ resource "aws_iam_policy" "ec2_s3_policy" {
           "s3:ListBucket"
         ]
         Resource = [
-          "arn:aws:s3:::tsc-terraform-artifact-test",
-          "arn:aws:s3:::tsc-terraform-artifact-test/*",
+          "arn:aws:s3:::tsc-terraform-artifact",
+          "arn:aws:s3:::tsc-terraform-artifact/*",
           "arn:aws:s3:::tsc-locust-reports",
           "arn:aws:s3:::tsc-locust-reports/*"
         ]
